@@ -1,11 +1,9 @@
 package com.github.nohgo.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.type.NumericBooleanConverter;
 
 @Entity
 @Table(name = "individuals")
@@ -13,8 +11,12 @@ import lombok.Setter;
 @Setter
 public class Individual {
     @Id
+    @GeneratedValue
     @Column(name = "ID") private int id;
     @Column(name = "Username") private String username;
     @Column(name = "Password") private String password;
-    @Column(name = "isAdmin") private boolean isAdmin;
+    @Column(name = "isAdmin", columnDefinition = "TINYINT")
+    @Convert(converter = NumericBooleanConverter.class) private Boolean isAdmin;
+
+
 }

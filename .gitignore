@@ -37,5 +37,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Hibernate Config ###
-hibernate.cfg.xml
+
+### Private File ###
+application.properties
