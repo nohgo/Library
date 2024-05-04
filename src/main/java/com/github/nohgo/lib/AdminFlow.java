@@ -1,6 +1,9 @@
 package com.github.nohgo.lib;
 
+import com.github.nohgo.models.Author;
 import com.github.nohgo.models.Book;
+import com.github.nohgo.models.Magazine;
+import com.github.nohgo.services.AuthorService;
 import com.github.nohgo.services.LibraryItemService;
 
 import java.util.Scanner;
@@ -20,59 +23,94 @@ public class AdminFlow {
             choice = input.nextLine();
             switch (choice) {
                 case "1":
-                    // viewAllBooks();
+                    viewAllBooks();
                     break;
                 case "2":
-                    // viewAllBorrowedBooks();
+                    viewAllBorrowedBooks();
                     break;
                 case "3":
-                    // viewAllAvailableBooks();
+                    viewAllAvailableBooks();
                     break;
                 case "4":
-                    // addBook();
+                    addBook();
                     break;
                 case "5":
-                    // removeBook();
+                    addMagazine();
                     break;
                 case "6":
+                    removeBook();
+                    break;
+                case "7":
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (!choice.equals("6"));
+        } while (!choice.equals("7"));
     }
-    public void viewAllBooks() {
+    public static void viewAllBooks() {
         LibraryItemService libraryItemService = new LibraryItemService();
         System.out.println("All library items:");
         libraryItemService.getAllLibraryItems().forEach(System.out::println);
     }
-    public void viewAllBorrowedBooks() {
+    public static void viewAllBorrowedBooks() {
         LibraryItemService libraryItemService = new LibraryItemService();
         System.out.println("All borrowed library items:");
         libraryItemService.findByIsBorrowed(true).forEach(System.out::println);
     }
-    public void viewAllAvailableBooks() {
+    public static void viewAllAvailableBooks() {
         LibraryItemService libraryItemService = new LibraryItemService();
         System.out.println("All available library items:");
         libraryItemService.findByIsBorrowed(false).forEach(System.out::println);
     }
-    public void addBook() {
+    public static void addMagazine() {
+        Magazine magazine = new Magazine();
+
+        Scanner input = new Scanner(System.in);
+        LibraryItemService libraryItemService = new LibraryItemService();
+        System.out.print("Enter the title of the magazine: ");
+        String title = input.nextLine();
+        System.out.print("Enter the issue number of the magazine: ");
+        int issueNumber = Integer.parseInt(input.nextLine());
+        magazine.setTitle(title);
+        magazine.setIssueNumber(issueNumber);
+        libraryItemService.saveLibraryItem(magazine);
+        System.out.println("Magazine added successfully!");
+    }
+    public static void addBook() {
         Book book = new Book();
+        AuthorService authorService = new AuthorService();
+
         Scanner input = new Scanner(System.in);
         LibraryItemService libraryItemService = new LibraryItemService();
         System.out.print("Enter the title of the book: ");
-        String title = input.nextLine();
+        book.setTitle(input.nextLine());
         System.out.print("Enter the author of the book: ");
-        String author = input.nextLine();
-        libraryItemService.addBook(title, author);
+        String authorName = input.nextLine();
+        Author author;
+        if (authorService.findByName(authorName) == null) {
+            author = new Author();
+            author.setName(authorName);
+            authorService.save(author);
+        } else {
+            author = authorService.findByName(authorName);
+            author.getBooks().add(book);
+        }
+        book.setAuthor(author);
+        libraryItemService.saveLibraryItem(book);
         System.out.println("Book added successfully!");
     }
-    public void removeBook() {
+    public static void removeBook() {
+        Scanner input = new Scanner(System.in);
         LibraryItemService libraryItemService = new LibraryItemService();
         System.out.print("Enter the title of the book you would like to remove: ");
         String title = input.nextLine();
-        libraryItemService.removeBook(title);
+        try {
+            libraryItemService.removeByTitle(title);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         System.out.println("Book removed successfully!");
     }
 }

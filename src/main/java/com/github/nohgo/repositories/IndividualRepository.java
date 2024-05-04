@@ -14,7 +14,4 @@ public interface IndividualRepository extends JpaRepository<Individual, Integer>
     Optional<Individual> findByUsernameAndPassword(String username, String password);
     Optional<Individual> findByUsername(String username);
     Optional<Individual> findById(int id);
-
-
-
 }

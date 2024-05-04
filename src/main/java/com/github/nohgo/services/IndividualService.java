@@ -14,8 +14,6 @@ public class IndividualService {
     @Autowired
     private IndividualRepository individualRepository;
 
-
-
     public List<Individual> getAllIndividuals() {
         return individualRepository.findAll();
     }

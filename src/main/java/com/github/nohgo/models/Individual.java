@@ -20,7 +20,7 @@ public class Individual {
     @Column(name = "isAdmin", columnDefinition = "TINYINT")
     @Convert(converter = NumericBooleanConverter.class) private Boolean isAdmin;
 
-    @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
     @Column(name = "borrowed_items")
     private List<LibraryItem> items;
 
