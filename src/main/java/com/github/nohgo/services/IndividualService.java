@@ -14,6 +14,8 @@ public class IndividualService {
     @Autowired
     private IndividualRepository individualRepository;
 
+
+
     public List<Individual> getAllIndividuals() {
         return individualRepository.findAll();
     }
@@ -22,15 +24,13 @@ public class IndividualService {
         return individualRepository.save(individual);
     }
 
-    public Individual Login(String username, String password) {
-        Individual potential =  individualRepository.findByUsername(username).orElse(null);
-        if (potential == null) {
-            return null;
-        }
-        if (potential.getPassword().equals(password)) {
-            return potential;
-        }
-        return null;
+    public Individual getIndividualById(int id) {
+        return individualRepository.findById(id).orElse(null);
     }
+
+    public Individual getIndividualByUsername(String username) {
+        return individualRepository.findByUsername(username).orElse(null);
+    }
+
 
 }

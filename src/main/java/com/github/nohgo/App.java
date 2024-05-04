@@ -1,19 +1,20 @@
 package com.github.nohgo;
 
 import com.github.nohgo.models.Individual;
-import com.github.nohgo.services.IndividualService;
+import com.github.nohgo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static com.github.nohgo.lib.Login.login;
+import static com.github.nohgo.lib.Register.register;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
-
-    @Autowired
-    private IndividualService individualService;
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
@@ -22,13 +23,32 @@ public class App implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Scanner input = new Scanner(System.in);
+        System.out.println("\nWelcome to the Library Management System!\n");
+        String choice;
 
-        System.out.println("Enter Username and Password");
-        Individual individual = individualService.Login(input.next(), input.next());
-        if (individual != null) {
-            System.out.println("Welcome " + individual.getUsername());
-        } else {
-            System.out.println("Invalid Username or Password");
-        }
+        do {
+            System.out.println("\nWould you like to login or register?");
+            System.out.println("1. Login");
+            System.out.println("2. Register");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = input.nextLine();
+            switch (choice) {
+                case "1":
+                    login(input);
+                    break;
+                case "2":
+                    register(input);
+                    break;
+                case "3":
+                    System.out.println("Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (!choice.equals("3"));
     }
+
+
+
 }

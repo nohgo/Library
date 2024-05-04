@@ -11,7 +11,10 @@ import java.util.Optional;
 public interface IndividualRepository extends JpaRepository<Individual, Integer>{
     List<Individual> findAll();
     Individual save(Individual individual);
+    Optional<Individual> findByUsernameAndPassword(String username, String password);
     Optional<Individual> findByUsername(String username);
+    Optional<Individual> findById(int id);
+
 
 
 }

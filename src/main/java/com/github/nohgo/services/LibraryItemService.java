@@ -25,8 +25,15 @@ public class LibraryItemService {
     public List<LibraryItem> findByIsBorrowed(Boolean isBorrowed) {
         return libraryItemRepository.findByIsBorrowed(isBorrowed);
     }
-    public LibraryItem findById(int id) {
-        return libraryItemRepository.findById(id).orElse(null);
+    public LibraryItem removeByTitle(String title) throws Exception {
+        LibraryItem libraryItem = libraryItemRepository.findByTitle(title).orElse(null);
+        if (libraryItem == null) {
+            throw new Exception("Item not found");
+        }
+
+        libraryItemRepository.delete(libraryItem);
+
+        return libraryItem;
     }
 
 }

@@ -14,5 +14,6 @@ public interface LibraryItemRepository extends JpaRepository<LibraryItem, Intege
     Optional<LibraryItem> findByTitle(String title);
     List<LibraryItem> findByIsBorrowed(Boolean isBorrowed);
     Optional<LibraryItem> findById(int id);
+    void delete(LibraryItem libraryItem);
 
 }

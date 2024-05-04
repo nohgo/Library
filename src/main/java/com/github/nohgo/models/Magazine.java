@@ -13,4 +13,13 @@ import lombok.Setter;
 public class Magazine extends LibraryItem {
     @Column(name = "IssueNumber")
     private int issueNumber;
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Issue Number: " + issueNumber;
+    }
+    @Override
+    public String getFullInfo() {
+        return super.getFullInfo() + ", Issue Number: " + issueNumber;
+    }
 }

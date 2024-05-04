@@ -12,9 +12,6 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public List<Book> findAllByAuthor(String author) {
-        return bookRepository.findAllByAuthor(author);
-    }
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
