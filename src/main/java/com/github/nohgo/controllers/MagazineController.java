@@ -11,16 +11,16 @@ public class MagazineController {
     @Autowired
     private MagazineService magazineService;
 
-    @GetMapping("/magazines/getAll")
+    @GetMapping("/getAll")
     public Iterable<Magazine> getMagazines() {
         return magazineService.getAllMagazines();
     }
-    @GetMapping("/magazines/getByTitle")
-    public Iterable<Magazine> getMagazineByTitle(@RequestParam String title) {
+    @GetMapping("/getByTitle")
+    public Iterable<Magazine> getMagazineByTitle(@RequestParam("title") String title) {
         return magazineService.findAllMagazinesByTitle(title);
     }
-    @GetMapping("/magazines/getByIsBorrowed")
-    public Iterable<Magazine> getMagazineByIsBorrowed(@RequestParam Boolean isBorrowed) {
+    @GetMapping("/getByIsBorrowed")
+    public Iterable<Magazine> getMagazineByIsBorrowed(@RequestParam("isBorrowed") Boolean isBorrowed) {
         return magazineService.findAllMagazinesByIsBorrowed(isBorrowed);
     }
 

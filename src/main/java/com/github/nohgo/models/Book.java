@@ -17,8 +17,4 @@ public class Book extends LibraryItem{
     public String toString() {
         return super.toString() + ", Author: " + author.getName();
     }
-    @Override
-    public String getFullInfo() {
-        return super.getFullInfo() + ", Author: " + author.getName();
-    }
 }

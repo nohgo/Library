@@ -1,5 +1,6 @@
 package com.github.nohgo.controllers;
 
+import com.github.nohgo.requests.AuthRequest;
 import com.github.nohgo.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,14 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody String username, String password) {
+    public ResponseEntity<String> register(@RequestBody AuthRequest request) {
+        if (request.getUsername() == null || request.getPassword() == null) {
+            return ResponseEntity.badRequest().body("Username and password are required");
+        }
         try {
-            authService.register(username, password);
+            authService.register(request.getUsername(), request.getPassword());
             return ResponseEntity.ok("User registered successfully");
-        } catch (Exception ignored) {}
+        } catch (Exception e) {}
         return ResponseEntity.badRequest().body("User registration failed");
     }
 

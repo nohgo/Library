@@ -1,5 +1,6 @@
 package com.github.nohgo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,14 @@ import java.util.List;
 public class Individual {
     @Id
     @GeneratedValue
+    @JsonIgnore
     @Column(name = "ID") private int id;
     @Column(name = "Username") private String username;
     @Column(name = "Password") private String password;
     @Column(name = "isAdmin", columnDefinition = "TINYINT")
-    @Convert(converter = NumericBooleanConverter.class) private Boolean isAdmin;
+    @Convert(converter = NumericBooleanConverter.class) private Boolean isAdmin = false;
 
-    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Column(name = "borrowed_items")
     private List<LibraryItem> items;
 

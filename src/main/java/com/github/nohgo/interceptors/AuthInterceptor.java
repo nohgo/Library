@@ -19,9 +19,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String username = request.getHeader("username");
         String password = request.getHeader("password");
-
         Individual individual = authService.login(username, password);
-
         if (individual != null) {
             request.setAttribute("individual", individual);
             return true;

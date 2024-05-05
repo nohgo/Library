@@ -18,8 +18,4 @@ public class Magazine extends LibraryItem {
     public String toString() {
         return super.toString() + ", Issue Number: " + issueNumber;
     }
-    @Override
-    public String getFullInfo() {
-        return super.getFullInfo() + ", Issue Number: " + issueNumber;
-    }
 }

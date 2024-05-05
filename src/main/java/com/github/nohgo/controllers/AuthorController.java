@@ -19,7 +19,7 @@ public class AuthorController {
         return authorService.findAll();
     }
     @GetMapping("/getByName")
-    public List<Book> getBooksByName(@RequestParam String name) {
+    public List<Book> getBooksByName(@RequestParam("name") String name) {
         return authorService.findBooksByAuthorByName(name);
     }
 

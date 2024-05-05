@@ -6,6 +6,7 @@ import com.github.nohgo.models.Magazine;
 import com.github.nohgo.requests.BookRequest;
 import com.github.nohgo.requests.MagazineRequest;
 import com.github.nohgo.services.*;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,10 @@ public class AdminController {
     @Autowired
     private LibraryItemService libraryItemService;
     @Autowired
-    private BookService bookService;
-    @Autowired
-    private MagazineService magazineService;
-    @Autowired
     private AuthService authService;
 
     @PostMapping("/addBook")
-    public void addBook(@RequestBody BookRequest bookRequest) {
+    public void addBook(@NonNull @RequestBody BookRequest bookRequest) {
         Author author = authorService.findByName(bookRequest.getAuthor());
         if (author == null) {
             author = new Author();
@@ -37,12 +34,14 @@ public class AdminController {
         Book book = new Book();
         book.setTitle(bookRequest.getTitle());
         book.setAuthor(author);
+        author.addBook(book);
 
+        authorService.save(author);
         libraryItemService.saveLibraryItem(book);
     }
 
     @DeleteMapping("/deleteBook")
-    public ResponseEntity<String> deleteBook(@RequestBody String title) {
+    public ResponseEntity<String> deleteBook(@NonNull @RequestBody String title) {
         try {
             libraryItemService.removeByTitle(title);
             return ResponseEntity.ok("Book deleted successfully");
@@ -51,7 +50,7 @@ public class AdminController {
     }
 
     @PostMapping("/addMagazine")
-    public void addMagazine(@RequestBody MagazineRequest magazineRequest) {
+    public void addMagazine(@NonNull @RequestBody MagazineRequest magazineRequest) {
         Magazine magazine = new Magazine();
         magazine.setTitle(magazineRequest.getTitle());
         magazine.setIssueNumber(magazineRequest.getIssueNumber());
@@ -59,7 +58,7 @@ public class AdminController {
         libraryItemService.saveLibraryItem(magazine);
     }
     @DeleteMapping("/deleteMagazine")
-    public ResponseEntity<String> deleteMagazine(@RequestBody String title) {
+    public ResponseEntity<String> deleteMagazine(@NonNull @RequestBody String title) {
         try {
             libraryItemService.removeByTitle(title);
             return ResponseEntity.ok("Magazine deleted successfully");
@@ -68,7 +67,7 @@ public class AdminController {
     }
 
     @PostMapping("/promoteToAdmin")
-    public ResponseEntity<String> promoteToAdmin(@RequestBody String username) {
+    public ResponseEntity<String> promoteToAdmin(@NonNull @RequestBody String username) {
         try {
             authService.promoteToAdmin(individualService.getIndividualByUsername(username));
             return ResponseEntity.ok("User promoted to admin successfully");

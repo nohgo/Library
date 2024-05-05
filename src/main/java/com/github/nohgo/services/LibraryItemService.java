@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LibraryItemService {
@@ -20,19 +21,19 @@ public class LibraryItemService {
     public LibraryItem saveLibraryItem(LibraryItem libraryItem) {
         return libraryItemRepository.save(libraryItem);
     }
-    public List<LibraryItem> findByTitle(String title) {
+    public Optional<LibraryItem> findByTitle(String title) {
         return libraryItemRepository.findByTitle(title);
     }
     public List<LibraryItem> findByIsBorrowed(Boolean isBorrowed) {
         return libraryItemRepository.findByIsBorrowed(isBorrowed);
     }
-    public List<LibraryItem> removeByTitle(String title) throws Exception {
-        List<LibraryItem> libraryItem = libraryItemRepository.findByTitle(title);
+    public LibraryItem removeByTitle(String title) throws Exception {
+        LibraryItem libraryItem = libraryItemRepository.findByTitle(title).orElse(null);
         if (libraryItem == null) {
             throw new Exception("Item not found");
         }
 
-        libraryItemRepository.deleteAll(libraryItem);
+        libraryItemRepository.delete(libraryItem);
 
         return libraryItem;
     }

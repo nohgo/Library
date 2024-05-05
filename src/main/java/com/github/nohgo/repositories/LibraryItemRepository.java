@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface LibraryItemRepository extends JpaRepository<LibraryItem, Integer>{
     List<LibraryItem> findAll();
     LibraryItem save(LibraryItem libraryItem);
-    List<LibraryItem> findByTitle(String title);
+    Optional<LibraryItem> findByTitle(String title);
     List<LibraryItem> findByIsBorrowed(Boolean isBorrowed);
     void delete(LibraryItem libraryItem);
 

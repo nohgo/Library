@@ -13,12 +13,9 @@ public class LibraryService {
     private LibraryItemService libraryItemService;
 
     public void borrowItem(Individual individual, String title) throws Exception{
-        LibraryItem item = libraryItemService.findByTitle(title).get(0);
+        LibraryItem item = libraryItemService.findByTitle(title).orElse(null);
         if (item == null) {
             throw new Exception("Item not found");
-        }
-        if (individual.getItems() != null && individual.hasItem(item)) {
-            throw new Exception("Individual already has this item");
         }
         if (item.getIsBorrowed()) {
             throw new Exception("Item is already borrowed");
@@ -33,7 +30,7 @@ public class LibraryService {
     }
 
     public void returnItem(Individual individual, String title) throws Exception{
-        LibraryItem item = libraryItemService.findByTitle(title).get(0);
+        LibraryItem item = libraryItemService.findByTitle(title).orElse(null);
         if (item == null) {
             throw new Exception("Item not found");
         }

@@ -1,5 +1,6 @@
 package com.github.nohgo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,21 +15,33 @@ public abstract class LibraryItem {
     @Id
     @GeneratedValue
     @Column(name = "ID")
+    @JsonIgnore
     private int id;
     @Column(name = "Title")
     private String title;
     @Column(name = "isBorrowed", columnDefinition = "TINYINT")
-    @Convert(converter = NumericBooleanConverter.class) private Boolean isBorrowed = false;
+    @Convert(converter = NumericBooleanConverter.class)
+    private Boolean isBorrowed = false;
+
     @JoinColumn(name = "borrower")
     @ManyToOne
+    @JsonIgnore
     private Individual borrower;
 
     @Override
     public String toString() {
         return "Title: " + title;
     }
-    public String getFullInfo() {
-        return "Title: " + title + ", Borrowed: " + isBorrowed + ", Borrower: " + borrower.getUsername();
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        LibraryItem other = (LibraryItem) obj;
+        return this.id == other.id;
     }
 
 }

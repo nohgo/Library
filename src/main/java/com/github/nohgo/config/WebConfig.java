@@ -5,10 +5,12 @@ import com.github.nohgo.interceptors.AuthInterceptor;
 import com.github.nohgo.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -17,6 +19,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor(authService)).excludePathPatterns("/register");
-        registry.addInterceptor(new AdminInterceptor(authService)).addPathPatterns("/admin/**");
+        registry.addInterceptor(new AdminInterceptor(authService)).addPathPatterns("/admin/**").excludePathPatterns("/register");
     }
 }

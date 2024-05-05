@@ -16,7 +16,7 @@ public class IndividualController {
     private IndividualService individualService;
 
     @GetMapping("/getAll")
-    public Iterable<LibraryItem> getIndividuals(@RequestAttribute Individual individual) {
+    public Iterable<LibraryItem> getIndividuals(@RequestAttribute("individual") Individual individual) {
         return individualService.getItemsByIndividual(individual);
     }
 }
