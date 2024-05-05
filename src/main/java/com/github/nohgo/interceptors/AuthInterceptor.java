@@ -1,11 +1,16 @@
+package com.github.nohgo.interceptors;
+
 import com.github.nohgo.services.AuthService;
 import com.github.nohgo.models.Individual;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+
+@Component
 public class AuthInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -22,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             request.setAttribute("individual", individual);
             return true;
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
     }

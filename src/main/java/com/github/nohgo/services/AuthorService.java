@@ -25,7 +25,7 @@ public class AuthorService {
     public Author findByName(String name) {
         return authorRepository.findByName(name);
     }
-    public List<Book> findBooksByAuthor(Author author) {
-        return author.getBooks();
+    public List<Book> findBooksByAuthorByName(String name) {
+        return authorRepository.findByName(name).getBooks();
     }
 }

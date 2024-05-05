@@ -1,5 +1,6 @@
 package com.github.nohgo.services;
 
+import com.github.nohgo.models.LibraryItem;
 import com.github.nohgo.repositories.IndividualRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class IndividualService {
 
     public Individual getIndividualByUsername(String username) {
         return individualRepository.findByUsername(username).orElse(null);
+    }
+    public List<LibraryItem> getItemsByIndividual(Individual individual) {
+        return individual.getItems();
     }
 
 

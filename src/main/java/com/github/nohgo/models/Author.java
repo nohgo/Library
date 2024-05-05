@@ -20,4 +20,9 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(name = "books")
     private List<Book> books;
+
+    public void addBook(Book book) {
+        books.add(book);
+        book.setAuthor(this);
+    }
 }

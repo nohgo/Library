@@ -3,6 +3,7 @@ package com.github.nohgo.services;
 import com.github.nohgo.repositories.LibraryItemRepository;
 import com.github.nohgo.models.LibraryItem;
 
+import org.apache.tomcat.jni.Library;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +20,19 @@ public class LibraryItemService {
     public LibraryItem saveLibraryItem(LibraryItem libraryItem) {
         return libraryItemRepository.save(libraryItem);
     }
-    public LibraryItem findByTitle(String title) {
-        return libraryItemRepository.findByTitle(title).orElse(null);
+    public List<LibraryItem> findByTitle(String title) {
+        return libraryItemRepository.findByTitle(title);
     }
     public List<LibraryItem> findByIsBorrowed(Boolean isBorrowed) {
         return libraryItemRepository.findByIsBorrowed(isBorrowed);
     }
-    public LibraryItem removeByTitle(String title) throws Exception {
-        LibraryItem libraryItem = libraryItemRepository.findByTitle(title).orElse(null);
+    public List<LibraryItem> removeByTitle(String title) throws Exception {
+        List<LibraryItem> libraryItem = libraryItemRepository.findByTitle(title);
         if (libraryItem == null) {
             throw new Exception("Item not found");
         }
 
-        libraryItemRepository.delete(libraryItem);
+        libraryItemRepository.deleteAll(libraryItem);
 
         return libraryItem;
     }

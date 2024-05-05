@@ -24,4 +24,8 @@ public class AuthService {
         individual.setPassword(password);
         individualRepository.save(individual);
     }
+    public void promoteToAdmin(Individual individual) {
+        individual.setIsAdmin(true);
+        individualRepository.save(individual);
+    }
 }
