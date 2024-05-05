@@ -4,17 +4,16 @@ import com.github.nohgo.services.AuthService;
 import com.github.nohgo.models.Individual;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 
-
-@Component
+@AllArgsConstructor
 public class AdminInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
