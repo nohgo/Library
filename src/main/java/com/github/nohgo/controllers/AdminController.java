@@ -2,7 +2,9 @@ package com.github.nohgo.controllers;
 
 import com.github.nohgo.models.Author;
 import com.github.nohgo.models.Book;
+import com.github.nohgo.models.Magazine;
 import com.github.nohgo.requests.BookRequest;
+import com.github.nohgo.requests.MagazineRequest;
 import com.github.nohgo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,22 @@ public class AdminController {
         return ResponseEntity.badRequest().body("Book not found");
     }
 
+    @PostMapping("/addMagazine")
+    public void addMagazine(@RequestBody MagazineRequest magazineRequest) {
+        Magazine magazine = new Magazine();
+        magazine.setTitle(magazineRequest.getTitle());
+        magazine.setIssueNumber(magazineRequest.getIssueNumber());
 
+        libraryItemService.saveLibraryItem(magazine);
+    }
+    @DeleteMapping("/deleteMagazine")
+    public ResponseEntity<String> deleteMagazine(@RequestBody String title) {
+        try {
+            libraryItemService.removeByTitle(title);
+            return ResponseEntity.ok("Magazine deleted successfully");
+        } catch (Exception ignored) {}
+        return ResponseEntity.badRequest().body("Magazine not found");
+    }
 
     @PostMapping("/promoteToAdmin")
     public ResponseEntity<String> promoteToAdmin(@RequestBody String username) {

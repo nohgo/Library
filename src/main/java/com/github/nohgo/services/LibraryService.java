@@ -13,7 +13,7 @@ public class LibraryService {
     private LibraryItemService libraryItemService;
 
     public void borrowItem(Individual individual, String title) throws Exception{
-        LibraryItem item = libraryItemService.findByTitle(title);
+        LibraryItem item = libraryItemService.findByTitle(title).get(0);
         if (item == null) {
             throw new Exception("Item not found");
         }
@@ -33,7 +33,7 @@ public class LibraryService {
     }
 
     public void returnItem(Individual individual, String title) throws Exception{
-        LibraryItem item = libraryItemService.findByTitle(title);
+        LibraryItem item = libraryItemService.findByTitle(title).get(0);
         if (item == null) {
             throw new Exception("Item not found");
         }
